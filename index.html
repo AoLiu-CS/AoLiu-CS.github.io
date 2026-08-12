@@ -8,7 +8,7 @@
     <meta name="author" content="Ao Liu">
     <link rel="shortcut icon" href="Ao.png">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
-    <link rel="stylesheet" href="assets/css/site.css">
+    <link rel="stylesheet" href="assets/css/site.css?v=5">
     <style>
         html { scroll-behavior: smooth; }
         #publications, #work-experience { scroll-margin-top: 72px; }
@@ -23,6 +23,9 @@
                 <a href="#work-experience" class="active">About</a>
                 <a href="#publications">Publications</a>
             </nav>
+            <button id="theme-toggle" class="btn" aria-label="Toggle dark mode" title="Toggle dark mode">
+                <i class="fas fa-moon"></i>
+            </button>
         </div>
     </header>
 
@@ -229,7 +232,62 @@
         <small>&copy; <span id="yr"></span> Ao Liu</small>
     </footer>
 
-    <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+    <script>
+        document.getElementById('yr').textContent = new Date().getFullYear();
+        const toggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        const STORAGE_KEY = 'theme';
+        const MANUAL_KEY = 'theme-manual';
+        
+        function setTheme(dark, manual = false) {
+            console.log('Setting theme:', dark ? 'dark' : 'light', 'manual:', manual);
+            if (dark) {
+                html.classList.add('dark');
+                html.classList.remove('light');
+            } else {
+                html.classList.add('light');
+                html.classList.remove('dark');
+            }
+            console.log('HTML classes:', html.className);
+            toggle.innerHTML = dark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            localStorage.setItem(STORAGE_KEY, dark ? 'dark' : 'light');
+            if (manual) localStorage.setItem(MANUAL_KEY, 'true');
+        }
+        
+        function getInitialTheme() {
+            const manual = localStorage.getItem(MANUAL_KEY) === 'true';
+            const saved = localStorage.getItem(STORAGE_KEY);
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (manual && saved) {
+                console.log('Using manual saved theme:', saved);
+                return saved === 'dark';
+            }
+            console.log('Using system preference:', prefersDark ? 'dark' : 'light');
+            return prefersDark;
+        }
+        
+        const initialDark = getInitialTheme();
+        setTheme(initialDark);
+        
+        // Listen for system theme changes (only if not manually overridden)
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            const manual = localStorage.getItem(MANUAL_KEY) === 'true';
+            if (!manual) {
+                console.log('System theme changed, auto-switching to:', e.matches ? 'dark' : 'light');
+                setTheme(e.matches);
+            }
+        });
+        
+        if (toggle) {
+            toggle.addEventListener('click', () => {
+                console.log('Button clicked, current dark:', html.classList.contains('dark'));
+                setTheme(!html.classList.contains('dark'), true);
+            });
+        } else {
+            console.error('Theme toggle button not found');
+        }
+    </script>
 
 </body>
 </html>

@@ -2,6 +2,38 @@
 :root{
   --ink:#16181d; --muted:#59616e; --accent:#1d4ed8; --rule:#e4e7ec; --bg:#fff; --subtle:#f6f7f9;
 }
+
+/* Explicit theme classes (highest priority) */
+html.dark {
+  --ink:#e8eaed; --muted:#9aa0a6; --accent:#6ea8fe; --rule:#3c4043; --bg:#1a1c1e; --subtle:#24272a;
+}
+html.dark .chip.pdf{background:#1e2a3e !important;color:#93c5fd !important}
+html.dark .chip.hl{background:#1e1f3a !important;color:#a5b4fc !important}
+html.dark .btn:hover{background:#24272a}
+html.dark .btn.primary:hover{background:#1e3a5f}
+html.dark .portrait{box-shadow:0 10px 30px rgba(0,0,0,.3)}
+html.dark .meta a{color:var(--muted)}
+html.dark .meta a:hover{color:var(--accent)}
+
+html.light {
+  --ink:#16181d; --muted:#59616e; --accent:#1d4ed8; --rule:#e4e7ec; --bg:#fff; --subtle:#f6f7f9;
+}
+html.light .chip.pdf{background:#eaf2fb !important;color:#1d4ed8 !important}
+html.light .chip.hl{background:#eef1ff !important;color:#3b4fd6 !important}
+
+/* Auto-detect: only when no explicit class */
+@media (prefers-color-scheme: dark) {
+  html:not(.dark):not(.light) {
+    --ink:#e8eaed; --muted:#9aa0a6; --accent:#6ea8fe; --rule:#3c4043; --bg:#1a1c1e; --subtle:#24272a;
+  }
+  html:not(.dark):not(.light) .chip.pdf{background:#1e2a3e !important;color:#93c5fd !important}
+  html:not(.dark):not(.light) .chip.hl{background:#1e1f3a !important;color:#a5b4fc !important}
+  html:not(.dark):not(.light) .btn:hover{background:#24272a}
+  html:not(.dark):not(.light) .btn.primary:hover{background:#1e3a5f}
+  html:not(.dark):not(.light) .portrait{box-shadow:0 10px 30px rgba(0,0,0,.3)}
+  html:not(.dark):not(.light) .meta a{color:var(--muted)}
+  html:not(.dark):not(.light) .meta a:hover{color:var(--accent)}
+}
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;font-size:16px}
 body{
