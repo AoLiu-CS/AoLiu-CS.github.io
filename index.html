@@ -8,7 +8,7 @@
     <meta name="author" content="Ao Liu">
     <link rel="shortcut icon" href="Ao.png">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
-    <link rel="stylesheet" href="assets/css/site.css?v=5">
+    <link rel="stylesheet" href="assets/css/site.css?v=8">
     <style>
         html { scroll-behavior: smooth; }
         #publications, #work-experience { scroll-margin-top: 72px; }
@@ -271,7 +271,9 @@
         setTheme(initialDark);
         
         // Listen for system theme changes (only if not manually overridden)
+        let ignoreFirstChange = true;
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (ignoreFirstChange) { ignoreFirstChange = false; return; }
             const manual = localStorage.getItem(MANUAL_KEY) === 'true';
             if (!manual) {
                 console.log('System theme changed, auto-switching to:', e.matches ? 'dark' : 'light');
@@ -280,10 +282,18 @@
         });
         
         if (toggle) {
-            toggle.addEventListener('click', () => {
+            let lastToggle = 0;
+            function handleToggle(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const now = Date.now();
+                if (now - lastToggle < 300) return;
+                lastToggle = now;
                 console.log('Button clicked, current dark:', html.classList.contains('dark'));
                 setTheme(!html.classList.contains('dark'), true);
-            });
+            }
+            toggle.addEventListener('click', handleToggle);
+            toggle.addEventListener('touchend', handleToggle, { passive: false });
         } else {
             console.error('Theme toggle button not found');
         }
