@@ -8,7 +8,7 @@
     <meta name="author" content="Ao Liu">
     <link rel="shortcut icon" href="Ao.png">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
-    <link rel="stylesheet" href="assets/css/site.css?v=10">
+    <link rel="stylesheet" href="assets/css/site.css?v=12">
     <style>
         html { scroll-behavior: smooth; }
         #publications, #work-experience { scroll-margin-top: 72px; }
@@ -241,12 +241,17 @@
         
         function setTheme(dark, manual = false) {
             console.log('Setting theme:', dark ? 'dark' : 'light', 'manual:', manual);
-            if (dark) {
-                html.classList.add('dark');
-                html.classList.remove('light');
+            if (manual) {
+                if (dark) {
+                    html.classList.add('dark');
+                    html.classList.remove('light');
+                } else {
+                    html.classList.add('light');
+                    html.classList.remove('dark');
+                }
             } else {
-                html.classList.add('light');
-                html.classList.remove('dark');
+                // Auto mode: remove explicit classes, let media query handle it
+                html.classList.remove('dark', 'light');
             }
             console.log('HTML classes:', html.className);
             toggle.innerHTML = dark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
@@ -268,7 +273,8 @@
         }
         
         const initialDark = getInitialTheme();
-        setTheme(initialDark);
+        const initialManual = localStorage.getItem(MANUAL_KEY) === 'true';
+        setTheme(initialDark, initialManual);
         
         // Listen for system theme changes (only if not manually overridden)
         let ignoreFirstChange = true;
@@ -277,7 +283,7 @@
             const manual = localStorage.getItem(MANUAL_KEY) === 'true';
             if (!manual) {
                 console.log('System theme changed, auto-switching to:', e.matches ? 'dark' : 'light');
-                setTheme(e.matches);
+                setTheme(e.matches, false);
             }
         });
         
