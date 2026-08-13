@@ -118,7 +118,7 @@ nav a.active::after{content:"";display:block;height:2px;background:var(--accent)
 .selpub{padding:0.75rem 0}
 .selpub+.selpub{border-top:1px dashed #dfe3ea}
 .pubtitle{font-weight:700;font-size:.96875rem}
-.venue{color:var(--muted);font-size:.90625rem}
+.venue{color:var(--ink);font-size:.90625rem}
 .vword{color:var(--muted)}
 .chip{display:inline-block;border-radius:5px;padding:0 .5rem;font-size:.75rem;font-weight:700;margin:0 2px;vertical-align:1px}
 .chip.pdf{background:#eaf2fb;color:var(--accent)}
