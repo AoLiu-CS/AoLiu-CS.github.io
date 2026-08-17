@@ -189,7 +189,7 @@ ol.pubs>li::before{content:counter(pub);position:absolute;left:0;top:0.9375rem;w
   .meta{flex:1 1 220px;border-top:1px dashed var(--rule);padding-top:.875rem}
   .btnrow{flex:1 1 100%;flex-direction:row;flex-wrap:wrap}
   .btn{flex:1 1 auto;justify-content:center}
-  .btn.primary{flex-basis:100%}
+  .btn.primary{flex:1 1 auto}
   .main{padding-left:0;padding-top:1.625rem}
 }
 
@@ -205,6 +205,7 @@ ol.pubs>li::before{content:counter(pub);position:absolute;left:0;top:0.9375rem;w
   .ptitle{font-size:.75rem}
   .btnrow{flex-direction:row}
   .btn{flex:1 1 45%}
+  .btn.primary{flex:1 1 45%}
   #theme-toggle{flex:none;width:2.5rem;height:2.5rem;padding:0;border-radius:50%;justify-content:center}
   #theme-toggle i{font-size:1rem}
   .sec{padding-bottom:1.5rem}
